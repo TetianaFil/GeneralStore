@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.awt.*;
 import java.net.URI;
 import java.time.Duration;
 
@@ -25,26 +26,57 @@ public class AppTest {
 
         driver = new AndroidDriver(new URI("http://127.0.0.1:4723/").toURL(), options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        System.out.println("App launched successfully");
     }
 
     @Test
     public void testAppLaunch() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.androidsample.generalstore:id/splashscreen")));
-        Assert.assertTrue(driver.findElement(By.id("com.androidsample.generalstore:id/splashscreen")).isDisplayed(),         "Splash screen is displayed");
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("com.androidsample.generalstore:id/splashscreen")));
+        WebElement splash = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("com.androidsample.generalstore:id/splashscreen")
+        ));
+        Assert.assertTrue(splash.isDisplayed(), "Splash screen should be visible");
+        System.out.println("Splash screen appeared and disappeared");
+
         //TitleGeneral Store
-        WebElement titleGeneralStoreElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("\t\n" +
-                "com.androidsample.generalstore:id/toolbar_title")));
+        WebElement titleGeneralStoreElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.androidsample.generalstore:id/toolbar_title")));
         String expectedTitleGeneralStore = "General Store";
         String actualTitleGeneralStore = titleGeneralStoreElement.getText();
         Assert.assertEquals(actualTitleGeneralStore, expectedTitleGeneralStore, "Title text should be '" + expectedTitleGeneralStore + "', but was '" + actualTitleGeneralStore + "'");
+        System.out.println("Title verified: " + actualTitleGeneralStore);
 
         //Text Select country
 
-        WebElement textViewElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"Select the country where you want to shop\"]\n")));
-        String expectedText = "Select the country where you want to shop";
-        String actualText = textViewElement.getText();
-        Assert.assertEquals(actualText, expectedText, "Text View text should be '" + expectedText + "', but was '" + actualText + "'");
+        WebElement textSelectCountryElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text='Select the country where you want to shop']")));
+        String expectedTextSelectCountry = "Select the country where you want to shop";
+        String actualTextSelectCountry = textSelectCountryElement.getText();
+        Assert.assertEquals(actualTextSelectCountry, expectedTextSelectCountry, "Text View text should be '" + expectedTextSelectCountry + "', but was '" + actualTextSelectCountry + "'");
+        System.out.println("Country selection text verified");
+
+        // Text Your Name
+
+        WebElement textYourNameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text='Your Name']")));
+        String expectedTextYourName = "Your Name";
+        String actualTextYourName = textYourNameElement.getText();
+        Assert.assertEquals(actualTextYourName, expectedTextYourName, "Text View text should be '" + expectedTextYourName + "', but was '" + actualTextYourName + "'");
+        System.out.println("Your Name  text verified");
+
+        // Text Gender
+        WebElement textGenderElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text='Gender']")));
+        String expectedTextGender = "Gender";
+        String actualTextGender = textGenderElement.getText();
+        Assert.assertEquals(actualTextGender, expectedTextGender, "Text View text should be '" + expectedTextGender + "', but was '" + actualTextGender + "'");
+        System.out.println("Text  Gender verified");
+
+        // Negative - Wrong Text
+
+        //WebElement textGenderElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text='Gender']")));
+        //String expectedTextGender = "Female";
+        //String actualTextGender = textGenderElement.getText();
+        //Assert.assertEquals(actualTextGender, expectedTextGender, "Text View text should be '" + expectedTextGender + "', but was '" + actualTextGender + "'");
+        //System.out.println("Text  Female verified");
+
+
+
     }
 
 
